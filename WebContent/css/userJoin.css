@@ -1,0 +1,429 @@
+  @charset "UTF-8";
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        #contents {
+            width: 1200px;
+            /* min-height: 1000px;*/
+            /*background-color: #f00;*/
+            margin: auto;
+        }
+
+        #logoWrap {
+            width: 1200px;
+            height: 150px;
+            margin: auto;
+            position: relative;
+        }
+
+        #logoWrap img{
+            width: 300px;
+            height: 150px;
+            position: absolute;
+            left: 450px;
+        }
+        #goIndex{
+            text-decoration: none;
+        }
+
+
+        input {
+            width: 400px;
+            height: 30px;
+            font-size: 20px;
+            outline: none;
+            margin-top: 7px;
+            border: transparent;
+        }
+
+        .wrap_input {
+            width: 460px;
+            height: 30px;
+            margin: auto;
+            margin-top: 5px;
+            margin-bottom: 80px;
+        }
+
+        .wrap_msg {
+            width: 456px;
+            height: 25px;
+            font-size: 10px;
+            text-indent: 5px;
+            font-weight: bold;
+            line-height: 25px;
+            color: #bf0000;
+        }
+
+        .box_input {
+            width: 460px;
+            height: 48px;
+            text-indent: 20px;
+            border-bottom: 1px solid silver;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .box_input_focus {
+            border-bottom: 1px solid #424242;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 14px;
+        }
+
+        /*라디오*/
+
+
+        .radioBox {
+            width: 460px;
+            height: 48px;
+            position: relative;
+        }
+
+        .box_radio {
+            width: 100px;
+            height: 48px;
+            line-height: 48px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .btn_radio {
+            width: 18px;
+            height: 18px;
+            background-color: transparent;
+            border-radius: 40px;
+            border: 2px solid silver;
+            cursor: pointer;
+            position: absolute;
+            top: 12px;
+            left: 7px;
+        }
+        .btn_radio2 {
+            width: 18px;
+            height: 18px;
+            background-color: transparent;
+            border-radius: 40px;
+            border: 2px solid silver;
+            cursor: pointer;
+            position: absolute;
+            top: 12px;
+            left: 7px;
+        }
+
+        .checkd_radio {
+            width: 12px;
+            height: 12px;
+            background-color: #424242;
+            border-radius: 40px;
+            margin: auto;
+            margin-top: 3px;
+            transition: 1s ease;
+            display: none;
+        }
+
+        @keyframes aniRadio {
+            0% {
+                transform: scale(0)
+            }
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        .radio_checking {
+            display: block;
+            animation: aniRadio 400ms ease;
+        }
+        .radio_checking2 {
+            display: block;
+            animation: aniRadio 400ms ease;
+        }
+
+        .box_radio input {
+            display: none;
+        }
+
+        .title_radio {
+            font-size: 14px;
+            cursor: pointer;
+            position: absolute;
+            top: 16px;
+            left: 40px;
+        }
+        .title_radio2 {
+            font-size: 14px;
+            cursor: pointer;
+            position: absolute;
+            top: 16px;
+            left: 40px;
+        }
+
+        /*ckeck css*/
+
+        #checkboxBox {
+            width: 460px;
+            height: 48px;
+            position: relative;
+        }
+
+        .box_checkbox {
+            width: 200px;
+            height: 48px;
+
+            line-height: 48px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .title_checkbox {
+            font-size: 14px;
+            cursor: pointer;
+
+            position: absolute;
+            top: 16px;
+            left: 40px;
+        }
+
+        .btn_checkbox {
+            width: 18px;
+            height: 18px;
+            background-color: transparent;
+            border: 2px solid silver;
+            cursor: pointer;
+            position: absolute;
+            top: 12px;
+            left: 7px;
+        }
+
+        .checkd_checkbox {
+            width: 12px;
+            height: 12px;
+            background-color: #424242;
+            margin: auto;
+            margin-top: 3px;
+            transition: 1s ease;
+            display: none;
+        }
+
+        .box_checkbox input {
+            display: none;
+        } 
+
+        @keyframes aniChecking {
+            0% {
+                transform: scale(0)
+            }
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        .checkbox_checking {
+            display: block;
+            animation: aniChecking 400ms ease;
+        }
+
+        /*ckeck css*/
+        /**/
+        div.icon_check {
+            width: 30px;
+            height: 30px;
+            /* background-color: lime;*/
+            color: #000;
+            font-size: 20px;
+            position: absolute;
+            top: 8px;
+            right: 3px;
+            text-align: center;
+            line-height: 30px;
+            text-indent: 0px;
+            color: transparent;
+        }
+
+        /*profile css*/
+/*         #profileWrap {
+            width: 460px;
+            height: 230px;
+
+            margin: auto;
+            position: relative;
+        }
+
+        #profileImgBox {
+            width: 200px;
+            height: 200px;
+            background-color: #283593;
+            display: block;
+            cursor: pointer;
+            outline: none;
+            margin: auto;
+            border-radius: 300px;
+        }
+        .fa-user{
+            position: absolute;
+            top:70px;
+            right:210px;
+            font-size: 50px;
+            color: white;
+        }
+
+        #fileUpload {
+            display: none;
+        }
+        
+        #profileBox.no_image #profileImg {
+			display: none;
+		} */
+
+#profileBox {
+	width: 140px;
+	height: 140px;
+	text-align: center;
+	font-size: 140px;
+	position: relative;
+	color: #ddd;
+	border-radius: 140px;
+	display: block;
+	margin: auto;
+}
+
+/* #profileBox.no_image #profileImg {
+	display: none;
+} */
+
+<c:if test="${loginUser!=null && loginUser.img==null}">
+	#profileBox.no_image #profileImg {
+		display: none;
+	}
+</c:if>
+
+#profileBox label {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	bottom: 4px;
+	right: 4px;
+	background: #9E9E9E;
+	font-size: 20px;
+	line-height: 40px;
+	text-align: center;
+	border-radius: 40px;
+	cursor: pointer;
+	color: #fff;
+	border: 2px solid #fff;
+}
+
+#profileBox label:hover {
+	background: #14bab6;
+}
+
+#profileRow {
+	height: 210px;
+	position: relative;
+	top: 40px;
+}
+
+#profile {
+	display: none;
+}
+
+#profileImg {
+	width: 140px;
+	height: 140px;
+	position: absolute;
+	left: 0;
+	top: 0;
+/* 	background: red; */
+	border-radius: 140px;
+}
+
+#profileBox.no_image .delete {
+	display: none;
+}
+
+.delete {
+	width: 24px;
+	height: 24px;
+	border-radius: 24px;
+	text-align: center;
+	line-height: 24px;
+	cursor: pointer;
+	position: absolute;
+	border: none;
+	outline: none;
+	right: 8px;
+	top: 8px;
+	background: #9E9E9E;
+	display: block;
+}
+
+.delete:hover {
+	background: #14bab6;
+	color: #fff;
+}
+
+        /**/
+#buttonWrap {
+width: 460px;
+height: 40px;
+position: relative;
+margin: auto;
+margin-top: 20px;
+margin-bottom: 20px;
+text-align: end;
+}
+
+        .btn_style {
+            width: 100px;
+            height: 40px;
+            border: none;
+            background-color: #283593;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .btn_style:hover {
+            background-color: #182156;
+        }
+        .birth{
+            position: relative;
+            top:20px;
+            width:100px;
+            height: 30px;
+           /* background-color: red;*/
+            border: none;
+            border-bottom: 1px solid silver;
+            margin-right: 20px;
+            outline: none;
+        }
+        
+        .wrap_msg.birth {
+        	border: none;
+        	width: 400px;
+        }
+        .birthEm{
+            position: relative;
+            top:25px;
+            left:-10px;
+            color: black;
+        }
+        
+        #contents .wrap_msg.ok {
+			color: #14BAB6;
+		}
+		
+		#profile {
+			display: none;
+		}
+
+/* 수정 */
+<c:if test="${loginUser!=null}">
+	input {
+		background-color: #fff;
+	}
+</c:if>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="itemWarns">
+
+	<select id="itemWarnList" parameterType="int" resultType="ItemWarn">
+		SELECT i.no, i.warn_no, i.item_no, i.regdate, w.title
+		FROM itemwarns i, warns w
+		WHERE i.warn_no = w.no
+		AND item_no = #{no}
+	</select>
+	
+	<insert id="insertItemWarn" parameterType="ItemWarn">
+		INSERT INTO ITEMWARNS(NO,WARN_NO,ITEM_NO,REGDATE)
+		VALUES(itemwarns_seq.nextval, #{warnNo}, #{itemNo}, systimestamp)
+	</insert>
+</mapper>
+

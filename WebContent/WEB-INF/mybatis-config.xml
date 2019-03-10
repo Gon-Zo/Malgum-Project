@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<!--알리아스 설정 -->
+	<typeAliases>
+		<typeAlias type="com.mujea.malgum.vo.Event" alias="Event"/>
+		<typeAlias type="com.mujea.malgum.vo.EventImg" alias="EventImg"/>
+		<typeAlias type="com.mujea.malgum.vo.Item" alias="Item"/>
+		<typeAlias type="com.mujea.malgum.vo.ItemWarn" alias="ItemWarn"/>
+		<typeAlias type="com.mujea.malgum.vo.Like" alias="Like"/>
+		<typeAlias type="com.mujea.malgum.vo.PageVO" alias="PageVO"/>
+		<typeAlias type="com.mujea.malgum.vo.Problem" alias="Problem"/>
+		<typeAlias type="com.mujea.malgum.vo.ProblemType" alias="ProblemType"/>
+		<typeAlias type="com.mujea.malgum.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.mujea.malgum.vo.Review" alias="Review"/>
+		<typeAlias type="com.mujea.malgum.vo.ReviewContent" alias="ReviewContent"/>
+		<typeAlias type="com.mujea.malgum.vo.Second" alias="Second"/>
+		<typeAlias type="com.mujea.malgum.vo.User" alias="User"/>
+		<typeAlias type="com.mujea.malgum.vo.Warn" alias="Warn"/>
+		<typeAlias type="com.mujea.malgum.vo.FilterVO" alias="FilterVO"/>
+	</typeAliases>
+
+	<!--맵퍼 설정 -->
+	<mappers>
+	  	<mapper resource="com/mujea/malgum/mapper/events.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/eventImgs.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/items.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/itemWarns.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/likes.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/problems.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/problemTypes.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/replies.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/reviewContents.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/reviews.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/seconds.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/users.xml"/>
+	  	<mapper resource="com/mujea/malgum/mapper/warns.xml"/>
+	</mappers>
+
+</configuration>

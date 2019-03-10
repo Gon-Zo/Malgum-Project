@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="replies">
+
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO
+		REPLIES(NO,REGDATE,REVIEW_NO,USER_NO,CONTENT)
+		VALUES(replies_seq.nextval, systimestamp, #{reviewNo}, #{userNo},
+		#{content})
+	</insert>
+
+	<select id="selectListReplies" resultType="Reply"
+		parameterType="int">
+		SELECT rl.no no, rl.regdate regdate, rl.content content,
+		u.name userName, u.img userImg
+		FROM replies rl, reviews r, users u
+		WHERE rl.review_no = r.no
+		AND u.no = rl.user_no
+		AND r.no = #{no}
+		ORDER BY
+		2 DESC
+	</select>
+
+	<select id="replyCount" parameterType="int" resultType="Reply">
+		SELECT review_no reviewNo , count(*) replyNum
+		FROM replies
+		WHERE review_no =
+		#{no}
+		GROUP BY review_no
+	</select>
+
+</mapper>
+

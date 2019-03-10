@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="problemTypes">
+
+	<!-- 회원가입, 유저의 피부고민 중복 선택 시 insert -->
+	<insert id="insertProb" parameterType="ProblemType">
+		INSERT INTO problemtypes(no, prob_no, user_no, regdate)
+		VALUES(problemtypes_seq.nextval, #{probNo}, #{userNo}, systimestamp)
+	</insert>
+	
+	<!-- 마이페이지 유저 고민 가져오기 -->
+	<select id="selectTypeList" resultType="ProblemType" parameterType="String">
+		SELECT p.title title, p.no probNo , t.no no
+		FROM problems p, problemtypes t, users u
+		WHERE p.no = t.prob_no
+		AND t.user_no = u.no
+		AND u.id= #{id}
+	</select>
+
+	<select id="itemTypes" parameterType="int" resultType="problemType">
+		SELECT t.no, t.prob_no probNo, t.item_no itemNo, t.regdate, p.title
+		FROM problemtypes t, problems p
+		WHERE t.prob_no = p.no
+		AND item_no = #{no}
+	</select>
+	
+	<insert id="insertItemProblemTypes" parameterType="ProblemType">
+		INSERT INTO PROBLEMTYPES(NO,PROB_NO,USER_NO,ITEM_NO,REGDATE)
+		VALUES(problemtypes_seq.nextval, #{probNo} ,null,#{itemNo}, systimestamp)
+	</insert>
+</mapper>
+

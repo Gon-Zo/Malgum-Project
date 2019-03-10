@@ -1,0 +1,167 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+#header {
+	position: absolute;
+	height: 140px;
+	z-index: 2;
+}
+
+#logo {
+	height: 100px;
+	text-align: center;
+}
+
+#logo img {
+	width: 200px;
+	height: 100px;
+}
+
+#loginWrap {
+	width: 250px;
+	height: 100px;
+	position: absolute;
+	top: 0px;
+	right: 10px;
+}
+
+#menuWrap {
+	height: 40px;
+	text-align: center;
+}
+
+#menuWrap .nav_menu {
+	display: inline-block;
+	width: 180px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+}
+
+#menuWrap .nav_menu a {
+	display: inline-block;
+	width: 180px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+	color: #283593;
+}
+
+#menuWrap .nav_menu a:hover {
+	background-color: #BBDEFA;
+}
+
+/*        #searchBtn span{
+                    display: none;
+                }*/
+#searchBtn:hover #menuWrap #searchBtn span {
+	display: block;
+}
+
+#logoutBox {
+	margin-top: 30px;
+}
+
+.head_btn {
+	text-align: center;
+	line-height: 30px;
+	width: 100px;
+	height: 30px;
+	display: inline-block;
+	cursor: pointer;
+	background-color: #4AB1E9;
+	border-radius: 5px;
+	font-size: 15px;
+}
+
+a .head_btn {
+	color: #fff;
+}
+/*
+        #searchBtn span{
+            opacity: 0;
+        }
+        #searchBtn:hover#searchBtn span{
+            opacity: 1;
+        }*/
+#loginBox {
+	margin-top: 30px;
+	line-height: 50px;
+}
+
+#profileBox {
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	text-align: center;
+	line-height: 50px;
+	font-size: 30px;
+	background-color: #283593;
+	display: inline-block;
+	color: #fff;
+	font-weight: bold;
+}
+#profileImg{
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+}
+#logoutForm {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	position: relative;
+	left: 20px;
+	top: -3px;
+}
+
+#logoutBtn {
+	color: #283593;
+	font-size: 25px;
+	cursor: pointer;
+	background: none;
+	border: none;
+}
+
+/**/
+
+/**/
+#indexWrap {
+	position: relative;
+}
+
+#bannerBox {
+	transform: translateY(0px);
+}
+
+#bannerBox img {
+	display: block;
+	/*  object-fit: contain;*/
+}
+
+.img_transition {
+	opacity: 0;
+	transition-property: all;
+	transition-timing-function: ease;
+	transition-duration: 0s;
+	/* position: relative;*/
+}
+
+.banner_on {
+	opacity: 1;
+	transition-property: opacity;
+	transition-timing-function: linear;
+	transition-duration: 2s;
+}
+
+#bannerWrap {
+	overflow: hidden;
+}

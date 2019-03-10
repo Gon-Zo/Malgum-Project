@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="likes">
+	<select id="selectLikeOne" resultType="Like" parameterType="Like">
+		select no , user_no userNo, review_no reviewNo, regdate
+		from likes
+		where type='R'
+		and user_no = #{userNo}
+		and review_no = #{reviewNo}
+	</select>
+	
+	<select id="selectOneLike" resultType="Like" parameterType="int">
+		SELECT r.no, nvL(l.likeNum,0) likeNum
+				FROM reviews r,(SELECT l.review_no , count(*) likeNum
+				FROM likes l, reviews r
+				WHERE l.type = 'R'
+				AND l.review_no = r.no
+				GROUP BY l.review_no) l
+				WHERE r.no = l.review_no(+)
+				AND r.no = #{no}
+	</select>
+	
+	<insert id="insertLike" parameterType="Like">
+		INSERT INTO likes(NO,REGDATE,USER_NO,TYPE,ITEM_NO,REVIEW_NO)
+		VALUES(likes_seq.nextval, systimestamp, #{userNo}, 'R', #{itemNo}, #{reviewNo})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="Like">
+		DELETE FROM Likes
+		WHERE user_no = #{userNo}
+		AND type ='R'
+		AND review_no = #{reviewNo}
+	</delete>
+	
+	<select id="ifLike" resultType="int" parameterType="Like">
+		SELECT COUNT(*)
+		FROM likes
+		WHERE user_no = #{userNo}
+		AND review_no = #{reviewNo}
+	</select>
+
+</mapper>
+

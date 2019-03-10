@@ -1,0 +1,192 @@
+@charset "UTF-8";
+.product_box {
+    margin-left: 90px;
+    margin-top: 50px;
+    margin-bottom:25px;
+    width: 280px;
+    height: 320px;
+    float: left;
+    background-color: #fff;
+}
+
+.product_box:hover {
+    box-shadow: 0 3px 0px 0 rgba(0, 0, 0, 0.16), 0 0px 0px 0 rgba(0, 0, 0, 0.12);
+}
+
+.product_imgs {
+    height: 210px;
+    width: 280px;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    transition: .3s ease;
+}
+
+.product_box .product_img img {
+    position: absolute;
+    left: 55px;
+    top: 0px;
+    border-radius: 5px 5px 0 0;
+    object-fit: contain;
+}
+
+.rank_img {
+    position: absolute;
+    z-index: 1;
+    left: 15px;
+    top: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.pouch_img {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    color: lightgray;
+    cursor: pointer;
+    z-index: 999;
+}
+
+i.far.fa-clipboard.wish, i.fas.fa-clipboard.wish {
+    font-size: 25px;
+}
+
+.brand_img {
+    position: absolute;
+    right: 20px;
+    bottom: -10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.brand_img img {
+    border-radius: 50%;
+    background-size: cover;
+}
+
+.brand_name {
+    width: 160px;
+    height: 25px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    position: absolute;
+    top: 5px;
+    left: -160px;
+    text-align: center;
+    line-height: 25px;
+    display: none;
+}
+
+.brand_img:hover .brand_name {
+    display: block;
+}
+
+.product_name {
+    height: 35px;
+    line-height: 1.2em;
+    padding: 20px 20px 3px 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.product_name a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.product_name:hover {
+    transform: scale(1.02);
+}
+
+.product_eval {
+	position:relative;
+    text-align: right;
+    padding: 3px 20px 3px 7px;
+    font-size: 15px;
+}
+.score_icon{
+	z-index:5;
+	position: absolute;
+	color: #283593;
+	right:42px;
+}
+
+.product_eval .score{
+	position:absolute;
+	right:115px;
+}
+
+.scoreBG{
+	z-index:2;
+	position:absolute;
+	color:#bbdefa;
+	right:42px;
+
+}
+.product_detail {
+    font-size: 15px;
+}
+
+.product_capacity {
+    float: left;
+    padding: 3px 7px 3px 20px;
+    left: 0;
+}
+
+.product_price {
+    float: right;
+    padding: 3px 20px 3px 7px;
+    right: 0;
+}
+
+.pouch_img .fas {
+    color: #283593;
+}
+
+
+.check_box {
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    left: 40px;
+    position: absolute;
+    z-index: 999;
+    text-align: center;
+    line-height: 210px;
+    font-size: 150px;
+    color: #ECEFF1;
+    display: none;
+    cursor: pointer;
+}
+
+.product_imgs:hover .check_box {
+    display: block;
+}
+
+.check_on {
+    display: block;
+    color: #283593;
+}
+
+/*
+.pouch_img>.fas {
+    color: #283593;
+}
+*/
+
+/*단종 card*/
+.stop_product {
+    width: 280px;
+    height: 210px;
+    background-color: rgba(0, 0, 0, .5);
+    line-height: 210px;
+    text-align: center;
+    z-index: 998;
+    position: absolute;
+    font-size: 40px;
+    font-weight: bold;
+    color: #FFFFFF;
+}

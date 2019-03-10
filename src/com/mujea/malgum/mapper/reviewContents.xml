@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviewContents">
+
+	<select id="selectList" resultType="ReviewContent"
+		parameterType="int">
+		select no ,review_no , img ,seq
+		from reviewcontents
+		where
+		review_no = #{no}
+		order by seq asc
+	</select>
+	
+	<select id="selectListReviewContents" resultType="ReviewContent" parameterType="int">
+		SELECT no, img, content
+		FROM reviewContents
+		WHERE review_no = #{no}
+	</select>
+	
+	<insert id="insert" parameterType="ReviewContent" >
+ 		INSERT INTO reviewContents(no, regdate, img, content, review_no, seq)
+		VALUES(reviewContents_seq.nextval, systimestamp, #{img}, #{content}, #{reviewNo}, #{seq})
+ 	</insert>
+
+</mapper>
+

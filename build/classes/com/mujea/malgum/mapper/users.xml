@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+
+	<!-- 회원가입 ID 체크 ajax -->
+	<select id="selectCheckId" resultType="int" parameterType="string">
+		SELECT COUNT(*)
+		FROM users
+		WHERE id = #{id}
+	</select>
+	
+	<!-- 일반 유저 회원가입 -->
+	<insert id="insert" parameterType="User">
+		<selectKey order="BEFORE" keyProperty="userNo" resultType="int">
+			SELECT users_seq.nextval
+			FROM dual
+		</selectKey>
+		INSERT INTO users(no, id, pwd, name, gender, birth, regdate, skin, type)
+		VALUES(#{userNo}, #{id}, #{pwd}, #{name}, #{gender}, #{birth}, sysdate, #{skin}, 'U')
+	</insert>
+	
+
+	<!-- 로그인과 마이페이지를 위한 select 
+		 nvl: null value login
+		 null일 때 어떻게 처리할지를 정하는 함수 -->
+	<select id="selectLogin" resultType="User" parameterType="User">
+		SELECT no, id, pwd, name, gender, birth, skin, type, company, brand, nvl(tel,'-')tel, nvl(link,'-')link, img, buisness_img, buisness_num, regdate
+		FROM users
+		WHERE id = #{id} AND pwd = #{pwd}
+	</select>
+	
+	
+	<select id="selectCheckBrand"
+	resultType="int"
+	parameterType="string">
+		SELECT COUNT(*)
+		FROM users
+		WHERE brand = #{brand}
+	</select>
+	
+	<select id="selectCheckTel"
+	resultType="int"
+	parameterType="string">
+		SELECT COUNT(*)
+		FROM users
+		WHERE tel = #{tel}
+	</select>
+	
+	<select id="selectCheckLink"
+	resultType="int"
+	parameterType="string">
+		SELECT COUNT(*)
+		FROM users
+		WHERE link = #{link}
+	</select>
+	
+	<select id="selectCheckBusinessNum"
+	resultType="int"
+	parameterType="string">
+		SELECT COUNT(*)
+		FROM users
+		WHERE buisness_num = #{buisnessNum}
+	</select>
+	
+	<insert id="insertCompany" parameterType="User">
+	insert into users(NO,ID,PWD,TYPE,COMPANY,BRAND,TEL,LINK,IMG,BUISNESS_IMG,BUISNESS_NUM,REGDATE)
+	values(users_seq.nextval,#{id},#{pwd},'C',#{company},#{brand},#{tel},#{link},#{img},#{buisnessImg},#{buisnessNum},systimestamp)
+	</insert>
+	
+	<select id="selectOneReviewUser" parameterType="int" resultType="User">
+		SELECT r.no no, u.name name, u.type type, u.regdate regdate, u.img img
+		FROM users u, reviews r
+		WHERE u.no = r.user_no
+		AND r.no = #{no}
+	</select>
+	
+	<update id="updateUser" parameterType="User">
+	update users 
+	set pwd= #{pwd} , 
+	skin=#{skin},
+	birth=#{birth}
+	where no =#{no}
+	</update>
+	
+	
+	
+</mapper>
+

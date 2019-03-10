@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="eventImgs">
+
+	<!-- 이벤트 상세 이미지들 가져오기 -->
+	<select id="selectImgList" parameterType="int" resultType="EventImg">
+		SELECT img
+		FROM eventimgs
+		WHERE event_no=#{eventNo}
+	</select>
+
+
+	<delete id="deleteEventImgs" parameterType="int">
+		DELETE eventimgs
+		WHERE event_no=#{eventNo}	
+	</delete>
+	
+	<insert id="insert" parameterType="EventImg">
+		insert into eventImgs(NO,REGDATE,IMG,EVENT_NO)
+		values(eventImgs_seq.nextval,systimestamp,#{img},#{eventNo})
+	</insert>
+	
+</mapper>
+

@@ -1,0 +1,310 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#wrap {
+	position: relative;
+	width: 1200px;
+	height: 1550px;
+	/*background-color: #F0E5DE;*/
+	margin: auto;
+	top: 30px;
+}
+
+#titleBox {
+	width: 1200px;
+	height: 49px;
+	font-size: 25px;
+	text-align: center;
+	line-height: 50px;
+	border-bottom: 1px solid silver;
+}
+
+#brandBox {
+	position: relative;
+	width: 1200px;
+	height: 100px;
+	line-height: 30px;
+	font-size: 18px;;
+	/*text-indent: 30px;*/
+}
+
+#representImg1{
+	width: 280px;
+	height: 180px;
+}
+
+#brandBox>h4 {
+	position: absolute;
+	width: 200px;
+	height: 30px;
+	border-bottom: 1px solid silver;
+	top: 20px;
+	left: 30px;
+}
+
+#infoBox {
+	position: relative;
+	width: 1200px;
+	height: 300px;
+	border-bottom: 1px solid silver;
+}
+
+#detailBox {
+	position: absolute;
+	width: 800px;
+	height: 300px;
+}
+
+#imageBox {
+	position: absolute;
+	width: 400px;
+	height: 300px;
+	right: 0;
+}
+
+#inputWrap {
+	position: relative;
+	width: 800px;
+	height: 200px;
+}
+
+.detail_label {
+	position: relative;
+	top: 10px;
+	left: 20px;
+	display: block;
+	margin-bottom: 13px;
+}
+
+.detail_input {
+	position: relative;
+	border: none;
+	border-bottom: 1px solid silver;
+	left: 20px;
+	width: 300px;
+	height: 30px;
+	display: block;
+	background-color: transparent;
+	outline: none;
+}
+
+#ageWrap {
+	position: relative;
+	width: 800px;
+	height: 50px;
+}
+
+.ageAll {
+	position: absolute;
+	top: 5px;
+	left: 20px;
+}
+
+.select_label {
+	position: relative;
+	padding: 10px;
+	min-width: 30px;
+	height: 5px;
+	top: 5px;
+	border-radius: 3px;
+	border: 1px solid #283593;
+	/*background-color: #283593;*/
+	color: black;
+	left: 90px;
+	margin-right: 5px;
+	text-align: center;
+	line-height: 5px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.select_label:hover {
+	background-color: #283593;
+	color: white;
+}
+
+.on {
+	background-color: #283593;
+	color: white;
+}
+
+.on2 {
+	background-color: #283593;
+	color: white;
+}
+
+.on3 {
+	background-color: #283593;
+	color: white;
+}
+
+.on4 {
+	background-color: #283593;
+	color: white;
+}
+
+.on5 {
+	background-color: #283593;
+	color: white;
+}
+
+.plusImage {
+	position: relative;
+	width: 280px;
+	height: 180px;
+	border: 1px solid #283593;
+	display: block;
+	text-align: center;
+	line-height: 180px;
+	font-size: 30px;
+	cursor: pointer;
+	left: 30px;
+	top: 30px;
+}
+
+#genderWrap {
+	position: relative;
+	width: 800px;
+	height: 50px;
+}
+
+#categorizeBox {
+	position: relative;
+	width: 1200px;
+	height: 80px;
+	border-bottom: 1px solid silver;
+}
+
+#categorizeBox>label {
+	top: 30px;
+}
+
+.categorize_select {
+	position: relative;
+	width: 100px;
+	height: 30px;
+	left: 90px;
+	top: 25px;
+	border: none;
+	background-color: transparent;
+	border-bottom: 1px solid silver;
+	margin-right: 10px;
+}
+
+#typeBox {
+	position: relative;
+	width: 1200px;
+	height: 80px;
+}
+
+#typeBox>label {
+	top: 30px;
+}
+
+#troubleBox {
+	position: relative;
+	width: 1200px;
+	height: 100px;
+	border-bottom: 1px solid silver;
+}
+
+#cautionBox {
+	position: relative;
+	width: 1200px;
+	height: 450px;
+	border-bottom: 1px solid silver;
+}
+
+#cautionBox>label {
+	top: 30px;
+}
+
+.caution_label {
+	position: relative;
+	padding: 10px;
+	min-width: 60px;
+	height: 5px;
+	top: 5px;
+	border-radius: 3px;
+	border: 1px solid #283593;
+	left: 90px;
+	margin-right: 5px;
+	text-align: center;
+	line-height: 5px;
+	display: table;
+	cursor: pointer;
+	margin-bottom: 10px;
+}
+
+.caution_label:hover {
+	background-color: #283593;
+	color: white;
+}
+
+#cautionBox2 {
+	position: absolute;
+	width: 600px;
+	height: 400px;
+	right: 0;
+	top: 20px;
+}
+
+#moreBox {
+	position: relative;
+	width: 1200px;
+	height: 300px;
+}
+
+#moreBox>.ageAll {
+	top: 20px;
+}
+
+.plusImage2 {
+	position: relative;
+	width: 280px;
+	height: 180px;
+	border: 1px solid #283593;
+	display: block;
+	text-align: center;
+	line-height: 180px;
+	font-size: 30px;
+	cursor: pointer;
+	left: 30px;
+	top: 60px;
+}
+
+#moreBox>textarea {
+	position: absolute;
+	top: 60px;
+	left: 400px;
+	width: 700px;
+	height: 180px;
+}
+
+.btn {
+	position: relative;
+	width: 70px;
+	height: 30px;
+	background-color: #283593;
+	border: none;
+	border-radius: 3px;
+	color: white;
+	font-size: 20px;
+	margin-left: 20px;
+	left: 920px;
+	cursor: pointer;
+	outline: none;
+}
+
+.btn:active {
+	background-color: #bbdefa;
+	color: black;
+}
+
+.noresize {
+	resize: none;
+	/* 사용자 임의 변경 불가 */
+}

@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviews">
+
+	<insert id="insert" parameterType="Review">
+		<selectKey order="BEFORE" keyProperty="no" resultType="int">
+			select reviews_seq.nextval
+			from dual
+		</selectKey>
+		INSERT INTO reviews(no, item_no, regdate, user_no, gift, score, title,
+		type, content)
+		VALUES(#{no}, #{itemNo}, systimestamp, #{userNo},
+		#{gift}, #{score},
+		#{title}, #{type}, #{content})
+	</insert>
+
+
+
+	<select id="selectTotal" resultType="int">
+		select count(*)
+		from reviews
+	</select>
+
+	<select id="selectTotalImg" resultType="int">
+		select count(*)
+		from
+		reviews
+		where type='I'
+	</select>
+
+	<select id="selectTotalTxt" resultType="int">
+		select count(*)
+		from
+		reviews
+		where type='T'
+	</select>
+
+
+	<select id="selectCategory" resultType="Second"
+		parameterType="String">
+		select no , title , type
+		from seconds
+		where type = #{type}
+		order by no
+	</select>
+
+
+	<select id="selectPageList" parameterType="FilterVO"
+		resultType="Review">
+		select no , title , gift , score , type , regdate , txt , userNo ,
+		name , userGender , birth , userSkin , userImg , likeNum , replyNum ,
+		itemNo , itemTitle , itemImg , brand , volume , age , itemGender ,
+		itemSkin , first , second , probNo , reviewContent , imgCount
+		from(
+		select no , title , gift , score , type , regdate , txt , userNo ,
+		name ,
+		userImg , userGender , birth , userSkin , likeNum , replyNum ,
+		itemNo , itemTitle , itemImg , brand , volume , age , itemGender ,
+		itemSkin
+		, first , second , probNo , reviewContent , imgCount ,rownum r
+		from (
+		select r.no , r.title , r.gift , r.score , r.type , r.regdate ,
+		r.content
+		txt,
+		u.no userNo , u.name ,u.gender userGender ,u.img userImg
+		,u.birth , u.skin
+		userSkin , nvl(l.likeNum,0) likeNum ,
+		nvl(re.replyNum,0) replyNum ,
+		i.no itemNo , i.title itemTitle , i.img
+		itemImg, i.brand , i.volume ,
+		i.age , i.gender itemGender , i.skin
+		itemSkin, i.first , i.second ,
+		i.probNo ,
+		rc.content reviewContent ,
+		nvl(rc.imgCount,0) imgCount
+		from reviews r , users u ,
+		(select review_no
+		, count(*) replyNum
+		from replies
+		group by review_no) re ,
+		(select
+		review_no , count(*) likeNum
+		from likes
+		where type = 'R'
+		group by
+		review_no) l ,
+		(select i.no , i.title , i.img , u.brand , i.volume ,
+		i.age , i.gender ,
+		i.skin , i.first , s.no second , p.prob_no probNo
+		from items i , users u , seconds s , problemtypes p
+		where i.user_no =
+		u.no
+		and i.second_no = s.no
+		and p.item_no(+) = i.no
+		) i , (
+		select
+		rc.review_no , rc.content , c.imgCount
+		from reviewcontents rc ,
+		(select
+		review_no , count(*) imgCount
+		from reviewContents
+		group by review_no) c
+		where c.review_no = rc.review_no
+		and seq = 1
+		) rc
+		where r.user_no = u.no
+		and re.review_no(+) = r.no
+		and l.review_no(+) = r.no
+		and i.no(+) =
+		r.item_no
+		and r.no = rc.review_no(+)
+		<if test="click==1">
+			and u.no = #{userNo}
+		</if>
+		<if test="listNo!=0">
+			and i.no = #{listNo}
+		</if>
+		<if test="second!=''">
+			and i.second in (${second})
+		</if>
+		<if test="skin!=null">
+			and i.skin in (${skin})
+		</if>
+		<if test="problem!=null">
+			and i.probNo in (${problem})
+		</if>
+		<if test="gift!=null">
+			and r.gift in (${gift})
+		</if>
+		<if test="age!=null">
+			and i.age in (${age})
+		</if>
+		<if test="type!=null">
+			and r.type = #{type}
+		</if>
+		<if test="order.equals('regdate')">
+			order by r.regdate desc
+		</if>
+		<if test="order.equals('score')">
+			order by r.score desc
+		</if>
+		<if test="order.equals('like')">
+			order by likeNum desc
+		</if>
+		)
+		)
+		where r between #{start} and #{end}
+	</select>
+
+	<select id="pageTotal" resultType="int" parameterType="FilterVO">
+		select count(*)
+		from reviews r , users u ,
+		(select review_no , count(*)
+		replyNum
+		from replies
+		group by review_no) re ,
+		(select review_no ,
+		count(*) likeNum
+		from likes
+		where type = 'R'
+		group by review_no) l ,
+		(select i.no , i.title , i.img , u.brand , i.volume , i.age , i.gender
+		,
+		i.skin , i.first , s.no second , p.prob_no probNo
+		from items i , users
+		u , seconds s , problemtypes p
+		where i.user_no = u.no
+		and i.second_no =
+		s.no
+		and p.item_no(+) = i.no
+		) i , (
+		select rc.review_no , rc.content ,
+		c.imgCount
+		from reviewcontents rc ,
+		(select review_no , count(*)
+		imgCount
+		from reviewContents
+		group by review_no) c
+		where c.review_no =
+		rc.review_no
+		and seq = 1
+		) rc
+		where r.user_no = u.no
+		and re.review_no(+) =
+		r.no
+		and l.review_no(+) = r.no
+		and i.no(+) = r.item_no
+		and r.no =
+		rc.review_no(+)
+		<if test="click==1">
+			and u.no = #{userNo}
+		</if>
+		<if test="listNo!=0">
+			and i.no = #{listNo}
+		</if>
+		<if test="second!=''">
+			and i.second in (${second})
+		</if>
+		<if test="skin!=null">
+			and i.skin in (${skin})
+		</if>
+		<if test="problem!=null">
+			and i.probNo in (${problem})
+		</if>
+		<if test="gift!=null">
+			and r.gift in (${gift})
+		</if>
+		<if test="age!=null">
+			and i.age in (${age})
+		</if>
+		<if test="type!=null">
+			and r.type = #{type}
+		</if>
+		<if test="order.equals('regdate')">
+			order by r.regdate desc
+		</if>
+		<if test="order.equals('score')">
+			order by r.score desc
+		</if>
+		<if test="order.equals('like')">
+			order by likeNum desc
+		</if>
+	</select>
+
+	<select id="scoreAVG" parameterType="int" resultType="double">
+		SELECT
+		NVL(ROUND(AVG(score),2), 0.00)
+		FROM reviews
+		WHERE item_no = #{no}
+	</select>
+
+	<select id="selectItemTotal" parameterType="int"
+		resultType="int">
+		SELECT NVL(count(*), 0)
+		FROM reviews
+		WHERE item_no = #{no}
+	</select>
+
+	<select id="reviewScoreCnt" parameterType="Map" resultType="int">
+		SELECT NVL(count(score), 0)
+		FROM reviews
+		WHERE item_no = #{itemNo}
+		AND
+		score= #{score}
+		GROUP BY item_no, score
+	</select>
+
+	<select id="itemReviewList" parameterType="Map"
+		resultType="review">
+		SELECT no, itemNo, title, regdate, gift, score, userNo, type, content,
+		name, userGender, birth, userSkin, userImg,
+		likeNum, replyNum, imgCount, rn
+		FROM (SELECT no, itemNo, title, regdate, gift,
+		score, userNo, type, content, name, userGender, birth, userSkin,
+		userImg, likeNum, replyNum, imgCount, rownum rn
+		FROM (SELECT r.no, r.item_no itemNo, r.title, r.regdate, r.gift, r.score,
+		r.user_no userNo, r.type, r.content,
+		u.name, u.gender userGender, u.birth, u.skin userSkin, u.img userImg,
+		NVL(l.likeNum,0) likeNum, NVL(re.replyNum,0) replyNum,
+		NVL(rc.imgCount,0) imgCount
+		FROM reviews r, users u, (SELECT l.review_no, count(l.review_no) likeNum
+		FROM likes l, reviews r
+		WHERE l.review_no = r.no
+		GROUP BY l.review_no) l,
+		(SELECT re.review_no, count(re.review_no) replyNum
+		FROM replies re, reviews r
+		WHERE re.review_no = r.no
+		GROUP BY re.review_no) re,
+		(SELECT rc.review_no, count(rc.review_no) imgCount
+		FROM reviewcontents rc, reviews r
+		WHERE rc.review_no = r.no
+		GROUP BY rc.review_no) rc
+		WHERE item_no = #{itemNo}
+		AND r.user_no = u.no
+		AND r.no = l.review_no(+)
+		AND r.no = re.review_no(+)
+		AND r.no = rc.review_no(+)
+		<if test="filterScore!=0">
+			AND r.score = #{filterScore}
+		</if>
+		<if test="reviewTypeStr.equals('전체')">
+		</if>
+		<if test="reviewTypeStr.equals('포토리뷰')">
+			AND r.type='I'
+		</if>
+		<if test="reviewTypeStr.equals('간단리뷰')">
+			AND r.type='T'
+		</if>
+		<if test="order.equals('regdate')">
+			ORDER BY r.regdate DESC
+		</if>
+		<if test="order.equals('like')">
+			ORDER BY likeNum DESC, r.regdate DESC
+		</if>
+		<if test="order.equals('score')">
+			ORDER BY r.score DESC, r.regdate DESC
+		</if>
+		))
+		WHERE rn BETWEEN #{pageVO.start} and #{pageVO.end}
+	</select>
+
+	<select id="itemReviewListTotal" parameterType="Map"
+		resultType="int">
+		SELECT count(*)
+		FROM (SELECT no, itemNo, title, regdate, gift, score,
+		userNo, type, content, name, userGender, birth, userSkin,
+		userImg, likeNum, replyNum, imgCount, rownum rn
+		FROM (SELECT r.no, r.item_no itemNo, r.title, r.regdate, r.gift, r.score,
+		r.user_no userNo, r.type, r.content,
+		u.name, u.gender userGender, u.birth, u.skin userSkin, u.img userImg,
+		NVL(l.likeNum,0) likeNum, NVL(re.replyNum,0) replyNum,
+		NVL(rc.imgCount,0) imgCount
+		FROM reviews r, users u, (SELECT l.review_no, count(l.review_no) likeNum
+		FROM likes l, reviews r
+		WHERE l.review_no = r.no
+		GROUP BY l.review_no) l,
+		(SELECT re.review_no, count(re.review_no) replyNum
+		FROM replies re, reviews r
+		WHERE re.review_no = r.no
+		GROUP BY re.review_no) re,
+		(SELECT rc.review_no, count(rc.review_no) imgCount
+		FROM reviewcontents rc, reviews r
+		WHERE rc.review_no = r.no
+		GROUP BY rc.review_no) rc
+		WHERE item_no = #{itemNo}
+		AND r.user_no = u.no
+		AND r.no = l.review_no(+)
+		AND r.no = re.review_no(+)
+		AND r.no = rc.review_no(+)
+		<if test="filterScore!=0">
+			AND r.score = #{filterScore}
+		</if>
+		<if test="reviewTypeStr.equals('전체')">
+		</if>
+		<if test="reviewTypeStr.equals('포토리뷰')">
+			AND r.type='I'
+		</if>
+		<if test="reviewTypeStr.equals('간단리뷰')">
+			AND r.type='T'
+		</if>
+		<if test="order.equals('regdate')">
+			ORDER BY r.regdate DESC
+		</if>
+		<if test="order.equals('like')">
+			ORDER BY likeNum DESC, r.regdate DESC
+		</if>
+		<if test="order.equals('score')">
+			ORDER BY r.score DESC, r.regdate DESC
+		</if>
+		))
+	</select>
+
+	<select id="itemReviewImage" parameterType="int"
+		resultType="ReviewContent">
+		SELECT no, review_no reviewNo, img, regdate, content , seq
+		FROM reviewcontents
+		WHERE review_no = #{no}
+	</select>
+
+	<select id="selectListSearchReview" resultType="Review"
+		parameterType="String">
+		SELECT no,title
+		FROM reviews
+		WHERE title LIKE #{title}
+	</select>
+
+	<select id="selectOneReview" resultType="Review"
+		parameterType="int">
+		SELECT r.no no,r.ITEM_NO itemNo, r.title title,
+		r.regdate regdate,
+		r.USER_NO userNo, r.type type ,r.content content, u.id id, i.title itemTitle,
+		i.img img
+		FROM reviews r, items i, users u
+		WHERE r.item_no = i.no
+		AND
+		i.user_no = u.no
+		AND r.no = #{no}
+	</select>
+
+	<select id="selectListReviewPopup" resultType="Review"
+		parameterType="int">
+		SELECT rc.no no, rc.img img, rc.content content
+		FROM reviews r, reviewContents rc
+		WHERE r.no = rc.review_no
+		AND r.no = #{no}
+	</select>
+
+	<select id="selectSearchReview" parameterType="FilterVO"
+		resultType="Review">
+		select no , title , gift , score , type , regdate , txt , userNo ,
+		name , userGender , birth , userSkin , userImg , likeNum , replyNum ,
+		itemNo , itemTitle , itemImg , brand , volume , age , itemGender ,
+		itemSkin , first , second , probNo , reviewContent , imgCount
+		from(
+		select no , title , gift , score , type , regdate , txt , userNo ,
+		name ,
+		userImg , userGender , birth , userSkin , likeNum , replyNum ,
+		itemNo , itemTitle , itemImg , brand , volume , age , itemGender ,
+		itemSkin
+		, first , second , probNo , reviewContent , imgCount ,rownum r
+		from (
+		select r.no , r.title , r.gift , r.score , r.type , r.regdate ,
+		r.content
+		txt,
+		u.no userNo , u.name ,u.gender userGender ,u.img userImg
+		,u.birth , u.skin
+		userSkin , nvl(l.likeNum,0) likeNum ,
+		nvl(re.replyNum,0) replyNum ,
+		i.no itemNo , i.title itemTitle , i.img
+		itemImg, i.brand , i.volume ,
+		i.age , i.gender itemGender , i.skin
+		itemSkin, i.first , i.second ,
+		i.probNo ,
+		rc.content reviewContent ,
+		nvl(rc.imgCount,0) imgCount
+		from reviews r , users u ,
+		(select review_no
+		, count(*) replyNum
+		from replies
+		group by review_no) re ,
+		(select
+		review_no , count(*) likeNum
+		from likes
+		where type = 'R'
+		group by
+		review_no) l ,
+		(select i.no , i.title , i.img , u.brand , i.volume ,
+		i.age , i.gender ,
+		i.skin , i.first , s.no second , p.prob_no probNo
+		from items i , users u , seconds s , problemtypes p
+		where i.user_no =
+		u.no
+		and i.second_no = s.no
+		and p.item_no(+) = i.no
+		) i , (
+		select
+		rc.review_no , rc.content , c.imgCount
+		from reviewcontents rc ,
+		(select
+		review_no , count(*) imgCount
+		from reviewContents
+		group by review_no) c
+		where c.review_no = rc.review_no
+		and seq = 1
+		) rc
+		where r.user_no = u.no
+		and re.review_no(+) = r.no
+		and l.review_no(+) = r.no
+		and i.no(+) =
+		r.item_no
+		and r.no = rc.review_no(+)
+		<if test="title!=null">
+			and r.title like #{title}
+		</if>
+		<if test="type!=null">
+			and r.type = #{type}
+		</if>
+		order by ${order} desc
+		)
+		)
+		where r between #{start} and #{end}
+	</select>
+
+	<select id="selectSearchCount" resultType="int"
+		parameterType="FilterVO">
+		select count(*)
+		from reviews r , users u ,
+		(select review_no
+		, count(*)
+		replyNum
+		from replies
+		group by review_no) re ,
+		(select
+		review_no ,
+		count(*) likeNum
+		from likes
+		where type = 'R'
+		group by
+		review_no) l ,
+		(select i.no , i.title , i.img , u.brand , i.volume ,
+		i.age , i.gender
+		,
+		i.skin , i.first , s.no second , p.prob_no probNo
+		from items i , users
+		u , seconds s , problemtypes p
+		where i.user_no =
+		u.no
+		and i.second_no =
+		s.no
+		and p.item_no(+) = i.no
+		) i , (
+		select
+		rc.review_no , rc.content ,
+		c.imgCount
+		from reviewcontents rc ,
+		(select
+		review_no , count(*) imgCount
+		from reviewContents
+		group by review_no) c
+		where c.review_no =
+		rc.review_no
+		and seq = 1
+		) rc
+		where r.user_no = u.no
+		and re.review_no(+) =
+		r.no
+		and l.review_no(+) = r.no
+		and i.no(+) =
+		r.item_no
+		and r.no =
+		rc.review_no(+)
+		<if test="title!=null">
+			and r.title like #{title}
+		</if>
+		<if test="type!=null">
+			and r.type = #{type}
+		</if>
+		order by ${order} desc
+	</select>
+
+</mapper>
+

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- AspectJ 자동 프록시 -->
+	<aop:aspectj-autoproxy/>
+
+	<!-- 어노테이션으로(반드시!) -->
+	<mvc:annotation-driven />
+
+	<!-- "/WEB-INF/view/ .jsp -->
+	<mvc:view-resolvers>
+		<mvc:jsp prefix="/WEB-INF/view/" suffix=".jsp" />
+	</mvc:view-resolvers>
+	
+	<!-- 모든 요청이 DispatcherServlet으로 들어가기 때문에 resource를 설정해야합니다. -->
+	<mvc:resources location="/css/" mapping="/css/**" />
+	<mvc:resources location="/img/" mapping="/img/**" />
+	<mvc:resources location="/js/" mapping="/js/**" />
+	<mvc:resources location="/profile/" mapping="/profile/**" />
+	<mvc:resources location="/upload/" mapping="/upload/**"/>
+	<mvc:resources location="/fonts/" mapping="/fonts/**" />
+		
+	<!-- 인터셉터(들) 설정 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/mypage/*"/>
+			<mvc:mapping path="/items/*"/>
+			<mvc:mapping path="/events/*"/>
+			<mvc:mapping path="/event/write"/>
+			<mvc:mapping path="/item/write"/>
+			<mvc:mapping path="/review/write"/>
+			<bean class="com.mujea.malgum.interceptor.LoginCheckInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- Controller -->
+	<bean id="eventController" p:eventService-ref="eventService" class="com.mujea.malgum.controller.EventController"/>
+	<bean id="itemController" 
+	p:itemService-ref="itemService" 
+	class="com.mujea.malgum.controller.ItemController"/>		
+	
+	<bean id="reviewController"
+	 p:reviewService-ref="reviewService" 
+	 class="com.mujea.malgum.controller.ReviewController"/>	
+	
+	<bean id="uploadController" 
+	p:resizeImageUtil-ref="resizeImageUtil" 
+	p:fileRenameUtil-ref="fileRenameUtil" class="com.mujea.malgum.controller.UploadController"/>		
+	
+	<bean id="userController" 
+	p:userService-ref="userService" class="com.mujea.malgum.controller.UserController"/>		
+	
+	<!-- 모델이 필요없는 인터널리소스뷰 -->
+
+	<!-- MultipartResovler -->
+   	<bean id="multipartResolver" p:defaultEncoding="UTF-8" p:maxUploadSize="104857600" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+</beans>

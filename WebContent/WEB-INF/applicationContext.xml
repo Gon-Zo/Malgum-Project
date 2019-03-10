@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- AspectJ 자동 프록시 -->
+	<aop:aspectj-autoproxy/>
+	
+	<!-- 트랜잭션을 어노테이션으로 설정 -->
+	<tx:annotation-driven/>
+
+	<jee:jndi-lookup id="dataSource"
+		jndi-name="java:comp/env/oraclexe" />
+
+	<!-- 트랜잭션 매니저 설정 -->
+	<bean id="transactionManager" 
+	p:dataSource-ref="dataSource"
+	class="org.springframework.jdbc.datasource.DataSourceTransactionManager" />
+
+	<bean id="sqlSessionFactory" p:dataSource-ref="dataSource"
+		p:configLocation="WEB-INF/mybatis-config.xml"
+		class="org.mybatis.spring.SqlSessionFactoryBean" />
+
+	<bean id="sqlSession" c:sqlSessionFactory-ref="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionTemplate" />
+
+	<!-- DAO -->
+	<bean id="eventsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.EventsDAOImpl"/>
+	<bean id="eventImgsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.EventImgsDAOImpl"/>
+	<bean id="itemsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.ItemsDAOImpl"/>
+	<bean id="itemsWarnsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.ItemsWarnsImpl"/>
+	<bean id="itemWarnsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.ItemWarnsDAOImpl"/>
+	<bean id="likesDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.LikesDAOImpl"/>
+	<bean id="problemsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.ProblemsDAOImpl"/>
+	<bean id="problemTypesDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.ProblemTypesDAOImpl"/>
+	<bean id="repliesDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.RepliesDAOImpl"/>
+	<bean id="reviewContentsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.ReviewContentsDAOImpl"/>
+	<bean id="reviewsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.ReviewsDAOImpl"/>
+	<bean id="secondsDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.SecondsDAOImpl"/>
+	<bean id="usersDAO" p:session-ref="sqlSession" class="com.mujea.malgum.dao.UsersDAOImpl"/>
+	<bean id="warnsDAO" p:session-ref="sqlSession"  class="com.mujea.malgum.dao.WarnsDAOImpl"/>
+	
+	<!-- service -->
+	<bean id="eventService" 
+	p:eventsDAO-ref="eventsDAO"
+	p:paginateUtil-ref="paginateUtil"
+	p:eventImgsDAO-ref="eventImgsDAO"
+	 class="com.mujea.malgum.service.EventServiceImpl"/>
+	 
+	<bean id="itemService"  
+	p:itemsDAO-ref="itemsDAO"
+	p:reviewsDAO-ref="reviewsDAO"
+	p:warnsDAO-ref="warnsDAO"
+	p:problemTypesDAO-ref="problemTypesDAO"
+	p:itemsWarnsDAO-ref="itemsWarnsDAO"
+	p:paginateUtil-ref="paginateUtil" 
+	p:likesDAO-ref="likesDAO"
+	class="com.mujea.malgum.service.ItemServiceImpl"/>
+	
+	<bean id="userService"  
+	p:usersDAO-ref="usersDAO" 
+	p:problemTypesDAO-ref="problemTypesDAO" 
+	class="com.mujea.malgum.service.UserServiceImpl"/>
+	
+	<bean id="reviewService" 
+	p:repliesDAO-ref="repliesDAO"
+	p:usersDAO-ref="usersDAO"
+	p:itemsDAO-ref="itemsDAO"
+	p:likesDAO-ref="likesDAO"
+	p:reviewContentsDAO-ref="reviewContentsDAO"
+	p:paginateUtil-ref="paginateUtil" 
+	p:reviewsDAO-ref="reviewsDAO" 
+	class="com.mujea.malgum.service.ReviewServiceImpl"/>
+	
+	<!-- util -->
+	<bean id="fileRenameUtil" class="com.mujea.malgum.util.FileRenameUtil"/>
+	<bean id="paginateUtil" class="com.mujea.malgum.util.PaginateUtil"/>
+	<bean id="resizeImageUtil" class="com.mujea.malgum.util.ResizeImageUtil"/>
+
+	<!-- aop 설정 --> 
+	<bean class="com.mujea.malgum.aop.LogAspect"/> 
+
+</beans>

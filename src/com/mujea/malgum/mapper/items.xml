@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="items">
+
+	<select id="selectItemList" resultType="Item"
+		parameterType="String">
+		select no , title , rownum
+		from( select no , title
+		from
+		items
+		where title like #{itemTitle}
+		order by 1 asc
+		)
+		where rownum between
+		1 and 7
+	</select>
+
+
+	<select id="selectTotal" resultType="int">
+		SELECT count(*)
+		FROM items
+	</select>
+
+
+	<select id="selectList" resultType="Item"
+		parameterType="FilterVO">
+		SELECT
+		itemNo,userNo,itemTitle,price,volume,itemImg,userImg,secondNo,gender,skin,type,age,first,brandName,regdate,AVGscore,reviewCount,probNo,r
+		FROM(SELECT
+		itemNo,userNo,itemTitle,price,volume,itemImg,userImg,secondNo,gender,skin,type,age,first,brandName,regdate,AVGscore,reviewCount,probNo,rownum
+		r
+		FROM(SELECT i.no itemNo,i.user_no userNo,i.title itemTitle,
+		price,volume,i.img itemImg,u.img userImg,i.second_no secondNo,i.gender gender,i.skin
+		skin,
+		i.type type,i.age age,first,
+		u.brand brandName,i.regdate regdate,g.AVGscore AVGscore,g.reviewCount
+		reviewCount ,p.prob_no probNo
+		FROM items i,reviews r,users u,
+		(SELECT ITEM_NO,avg(score) AVGscore,count(item_no) reviewCount
+		FROM reviews
+		GROUP by item_no) g , problemtypes p
+		WHERE i.no=r.no
+		and i.user_no=u.no
+		and g.item_no=i.no
+		and p.item_no(+) = i.no
+		<if test="second!=''">
+			and i.second_no in (${second})
+		</if>
+		<if test="skin!=null">
+			and i.skin in (${skin})
+		</if>
+		<if test="problem!=null">
+			and p.prob_no in (${problem})
+		</if>
+		<if test="age!=null">
+			and i.age in (${age})
+		</if>
+		<if test="type!=null">
+			and i.type = #{type}
+		</if>
+		<if test="gender!=null">
+			and i.gender = ${gender}
+		</if>
+		<if test="order.equals('regdate')">
+			order by i.regdate desc
+		</if>
+		<if test="order.equals('score')">
+			order by g.AVGscore desc
+		</if>
+		))
+		WHERE r BETWEEN #{start} AND #{end}
+	</select>
+
+	<select id="selectOne" parameterType="int" resultType="Item">
+		SELECT
+		i.no, i.user_no userNo, i.title, i.price, i.volume, i.age, i.gender,
+		i.skin, i.content, i.detail_img detailImg, i.type, i.img, i.regdate,
+		i.first, i.second_no secondNo,s.title category, u.brand
+		FROM items i,
+		seconds s, users u
+		WHERE i.no = #{no}
+		AND i.second_no = s.no
+		AND
+		i.user_no = u.no
+	</select>
+
+	<update id="updateType" parameterType="Map">
+		UPDATE items SET type =
+		#{type} WHERE no = #{itemNo}
+	</update>
+
+	<insert id="insertItem" parameterType="Item">
+		<selectKey order="BEFORE" keyProperty="no" resultType="int">
+			SELECT items_seq.nextval
+			FROM dual
+		</selectKey>
+		INSERT INTO ITEMS(NO,USER_NO,TITLE,PRICE,
+		VOLUME,AGE,GENDER,SKIN,CONTENT,DETAIL_IMG,TYPE,
+		IMG,REGDATE,FIRST,SECOND_NO)
+		VALUES(#{no}, #{userNo}, #{title},
+		#{price},#{volume},#{age},#{gender},#{skin},#{content},
+		#{detailImg},#{type},#{img},systimestamp,#{first},#{secondNo})
+	</insert>
+
+
+	<!-- -->
+
+	<select id="searchItemList" resultType="Item"
+		parameterType="FilterVO">
+		SELECT
+		itemNo,userNo,itemTitle,price,volume,itemImg,userImg,secondNo,gender,skin,type,age,first,brandName,regdate,AVGscore,reviewCount,probNo,r
+		FROM(SELECT
+		itemNo,userNo,itemTitle,price,volume,itemImg,userImg,secondNo,gender,skin,type,age,first,brandName,regdate,AVGscore,reviewCount,probNo,rownum
+		r
+		FROM(SELECT i.no itemNo,i.user_no userNo,i.title itemTitle,
+		price,volume,i.img itemImg,u.img userImg,i.second_no secondNo,i.gender gender,i.skin
+		skin,
+		i.type type,i.age age,first,
+		u.brand brandName,i.regdate regdate,g.AVGscore AVGscore,g.reviewCount
+		reviewCount ,p.prob_no probNo
+		FROM items i,reviews r,users u,
+		(SELECT ITEM_NO,avg(score) AVGscore,count(item_no) reviewCount
+		FROM reviews
+		GROUP by item_no) g , problemtypes p
+		WHERE i.no=r.no
+		and i.user_no=u.no
+		and g.item_no=i.no
+		and p.item_no(+) = i.no
+		<if test="title!=null">
+			and i.title like #{title}
+		</if>
+		order by ${order} desc
+		))
+		WHERE r BETWEEN #{start} AND #{end}
+	</select>
+
+
+	<select id="selectSearchCount" resultType="int"
+		parameterType="FilterVO">
+		SELECT count(*)
+		FROM items i,reviews r,users u,
+		(SELECT ITEM_NO,avg(score) AVGscore,count(item_no) reviewCount
+		FROM reviews
+		GROUP by item_no) g , problemtypes p
+		WHERE i.no=r.no
+		and i.user_no=u.no
+		and g.item_no=i.no
+		and p.item_no(+) = i.no
+		<if test="title!=null">
+			and i.title like #{title}
+		</if>
+		order by ${order} desc
+	</select>
+
+
+
+	<select id="selectCompnyList" resultType="Item"
+		parameterType="PageVO">
+		SELECT
+		itemNo,userNo,itemTitle,price,volume,itemImg,userImg,secondNo,gender,skin,type,age,first,brandName,regdate,AVGscore,reviewCount,probNo,r
+		FROM(SELECT
+		itemNo,userNo,itemTitle,price,volume,itemImg,userImg,secondNo,gender,skin,type,age,first,brandName,regdate,AVGscore,reviewCount,probNo,rownum
+		r
+		FROM(SELECT i.no itemNo,i.user_no userNo,i.title itemTitle,
+		price,volume,i.img itemImg,u.img userImg,i.second_no secondNo,i.gender gender,i.skin
+		skin,
+		i.type type,i.age age,first,
+		u.brand brandName,i.regdate regdate,g.AVGscore AVGscore,g.reviewCount
+		reviewCount ,p.prob_no probNo
+		FROM items i,reviews r,users u,
+		(SELECT ITEM_NO,avg(score) AVGscore,count(item_no) reviewCount
+		FROM reviews
+		GROUP by item_no) g , problemtypes p
+		WHERE i.no=r.no
+		and i.user_no=u.no
+		and g.item_no=i.no
+		and p.item_no(+) = i.no
+		and i.user_no= #{userNo}
+		order by i.regdate desc
+		))
+		WHERE r BETWEEN #{start} AND #{end}
+	</select>
+
+</mapper>
+

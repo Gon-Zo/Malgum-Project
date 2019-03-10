@@ -1,0 +1,224 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+#wrap {
+	width: 1200px;
+	margin: auto;
+}
+
+input {
+	width: 400px;
+	height: 30px;
+	font-size: 20px;
+	outline: none;
+	margin-top: 7px;
+	border: transparent;
+}
+
+.wrap_input {
+	width: 460px;
+	height: 30px;
+	margin: auto;
+	margin-top: 5px;
+	margin-bottom: 80px;
+}
+
+.wrap_msg {
+	width: 456px;
+	height: 25px;
+	font-size: 10px;
+	text-indent: 5px;
+	font-weight: bold;
+	line-height: 25px;
+	color: #bf0000;
+}
+
+.wrap_msg.ok {
+	color: #283593;
+}
+
+.box_input {
+	width: 460px;
+	height: 48px;
+	text-indent: 20px;
+	border-bottom: 1px solid silver;
+	margin-top: 10px;
+	position: relative;
+}
+
+.box_input_focus {
+	border-bottom: 1px solid #424242;
+}
+
+label {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 14px;
+}
+
+/**/
+div.icon_check {
+	width: 30px;
+	height: 30px;
+	/* background-color: lime;*/
+	color: #000;
+	font-size: 20px;
+	position: absolute;
+	top: 8px;
+	right: 3px;
+	text-align: center;
+	line-height: 30px;
+	text-indent: 0px;
+	color: transparent;
+}
+
+/*profile css*/
+#profileWrap {
+	width: 460px;
+	height: 230px;
+	margin: auto;
+	position: relative;
+}
+
+#companyWrap {
+	width: 460px;
+	height: 280px;
+	margin: auto;
+	position: relative;
+}
+
+#profileImgBox {
+	width: 200px;
+	height: 200px;
+	background-color: #283593;
+	display: block;
+	cursor: pointer;
+	outline: none;
+	text-align: center;
+	line-height: 200px;
+	font-size: 100px;
+	color: #fff;
+	position: absolute;
+	top: 15px;
+	left: 140px;
+	border-radius: 300px;
+	z-index: 3;
+}
+
+#profileWrap>img {
+	width: 200px;
+	height: 200px;
+	border-radius: 300px;
+	position: absolute;
+	top: 15px;
+	left: 140px;
+}
+
+#companyWrap>img {
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	top: 30px;
+	left: 140px;
+}
+
+#profileWrap.no_image #profileImg {
+	display: none;
+}
+
+.delete {
+	width: 50px;
+	heigth: 50px;
+	position: absolute;
+	background-color: transparent;
+	font-size: 30px;
+	top: 20px;
+	left: 350px;
+	outline: none;
+	cursor: pointer;
+	border: none;
+	display: none;
+}
+
+#businessPhotoBox {
+	width: 200px;
+	height: 200px;
+	background-color: #283593;
+	display: block;
+	cursor: pointer;
+	outline: none;
+	text-align: center;
+	line-height: 200px;
+	font-size: 100px;
+	color: #fff;
+	position: absolute;
+	top: 30px;
+	left: 140px;
+	z-index: 3;
+}
+
+#companyWrap .wrap_msg {
+	position: absolute;
+	bottom: 20px;
+}
+
+#profileWrap .wrap_msg {
+	position: absolute;
+	bottom: 0px;
+}
+
+#fileUpload {
+	display: none;
+}
+/*profile css*/
+
+/*button css*/
+#buttonWrap {
+	width: 460px;
+	height: 40px;
+	position: relative;
+	margin: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: end;
+}
+
+.btn_style {
+	width: 100px;
+	height: 40px;
+	border: none;
+	background-color: #283593;
+	cursor: pointer;
+	color: #fff;
+	border-radius: 3px;
+}
+
+.btn_style:hover {
+	background-color: #182156;
+}
+/*button css*/
+/*logo css*/
+#logoWrap {
+	width: 1200px;
+	height: 150px;
+	margin: auto;
+	position: relative;
+}
+
+#logoWrap img {
+	width: 300px;
+	height: 150px;
+	position: absolute;
+	left: 450px;
+}
+
+#goIndex {
+	text-decoration: none;
+}
+/*logo css*/
+#businessPhoto {
+	display: none;
+}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="events">
+
+	<!-- 이벤트 상세에서 기본 정보들 뽑기 -->
+	<select id="selectOne" parameterType="int" resultType="Event">
+		SELECT e.no, e.title, e.start_date startDate, e.end_date endDate, e.regdate, e.email, u.brand, u.link, u.img, e.user_no userNo
+		FROM events e, users u
+		WHERE e.user_no = u.no
+		AND e.no = #{no}
+	</select>
+
+	<!-- //회사의 이벤트 관리 리스트 -->
+	<select id="selectEventList" resultType="Event" parameterType="PageVO">
+		SELECT no, regdate, title,startDate, endDate, email, brand, img , id
+		FROM(SELECT no, regdate, title,startDate, endDate, email, brand, img, rownum r , id
+			 FROM(SELECT e.no no,e.regdate regdate,title,start_date startDate,end_date endDate,email,u.brand brand, i.img img ,u.id
+				  FROM events e, users u, (SELECT e.no, e.img
+					    				   FROM eventimgs e, (SELECT event_no, MIN(no) no
+															  FROM eventimgs
+															  GROUP BY event_no) i
+										   WHERE i.no = e.no) i
+ 			      WHERE e.user_no = u.no
+				  AND e.no = i.no
+				  AND u.no = #{userNo}
+				  ORDER BY ${order}))
+		WHERE r between #{start} and #{end}
+	</select>
+	
+	<!-- 기업의 이벤트 총 개수 -->
+	<select id="selectEventTotal" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM events e, users u
+		WHERE u.no = e.user_no
+		AND u.id = #{id}
+	</select>
+	
+	<!-- 이벤트 삭제 -->
+	<delete id="deleteEvent" parameterType="int">
+		DELETE events
+		WHERE no=#{eventNo}	
+	</delete>
+	
+	<select id="selectAll" resultType="Event" parameterType="PageVO">
+		select
+		no,regdate,title,startDate,endDate,email,brand,img
+		from(select
+		no,regdate,title,startDate,endDate,email,brand,img,rownum r
+		from(select e.no no,e.regdate regdate,title,start_date
+		startDate,end_date endDate,email,u.brand brand, i.img img
+		from events
+		e,users u , (SELECT e.no, e.img
+		FROM eventimgs e, (SELECT event_no,
+		MIN(no) no
+		FROM eventimgs
+		GROUP BY event_no) i
+		WHERE i.no = e.no) i
+		where
+		${type}
+		and e.user_no=u.no
+		and e.no = i.no
+		order by ${order}))
+		where r
+		between #{start} and #{end}
+	</select>
+
+	<select id="selectTotal" resultType="int">
+		select count(*)
+		from events
+		where end_date > (select sysdate
+		from dual)
+	</select>
+
+	<insert id="insert" parameterType="Event">
+	<selectKey order="BEFORE" keyProperty="eventNo" resultType="int">
+	select events_seq.nextval
+	from dual
+	</selectKey>
+		insert into events(NO,REGDATE,TITLE,START_DATE,END_DATE,EMAIL,USER_NO)
+		values(#{eventNo},systimestamp,#{title},#{startDate},#{endDate},#{email},#{userNo})
+	</insert>
+		
+</mapper>
+

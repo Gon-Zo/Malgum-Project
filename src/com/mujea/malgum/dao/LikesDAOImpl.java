@@ -11,19 +11,20 @@ public class LikesDAOImpl implements LikesDAO {
 	public void setSession(SqlSession session) {
 		this.session = session;
 	}
-
+	
+	/**
+	 * @name selectReviewLike \n
+	 * @brief 유저의 리뷰 좋아요 유무를 알기위한 리스트를 불러오는 함수\n
+	 * @param Like like \n
+	 * @return int \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public int selectReviewLike(Like like) {
 		// TODO Auto-generated method stub
-		int check = 0;
-		System.out.println("like DAO ::: "+like.getReviewNo() +"::::"+like.getUserNo());
-		Like likes = session.selectOne("likes.selectLikeOne", like);
-		if(likes==null) {
-			check = 0;
-		}else {
-			check = 1;
-		}
-		return check;
+		return session.selectOne("likes.selectLikeOne", like) != null  ? 1 : 0;
 	}
 	
 	@Override

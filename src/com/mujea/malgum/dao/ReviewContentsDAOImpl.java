@@ -15,6 +15,15 @@ public class ReviewContentsDAOImpl implements ReviewContentsDAO {
 		this.session = session;
 	}
 
+	/**
+	 * @name selectContents \n
+	 * @brief 리뷰컨테츠 목록을 가져오기 위한 함수 \n
+	 * @param int no 리뷰의 번호 \n
+	 * @return List<ReviewContent> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public List<ReviewContent> selectContents(int no) {
 		// TODO Auto-generated method stub

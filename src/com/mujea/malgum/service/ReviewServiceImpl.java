@@ -60,7 +60,7 @@ public class ReviewServiceImpl implements ReviewService {
 	 * @name searchItem \n
 	 * @brief 리뷰페이지에서의 자동완성 기능 \n
 	 * @param String title \n
-	 * @return Map<String, Object> \n
+	 * @return List<Item> \n
 	 * @author park \n
 	 * @version 1.0 \n
 	 * @see None \n
@@ -101,25 +101,14 @@ public class ReviewServiceImpl implements ReviewService {
 
 		FilterVO filterVO = new FilterVO(pageNo, numPage, order, type, listNo, second, skin, age, problem, gift,
 				loginUser, click);
-
 		List<Review> list = reviewsDAO.selectPageList(filterVO);
-
 		Like like = new Like();
 		like.setUserNo(loginUser);
-		System.out.println("likeUserNo ::" + like.getUserNo());
-		String likeCheck = "F";
+		
 		for (Review review : list) {
 			review.setList(reviewContentsDAO.selectContents(review.getNo()));
 			like.setReviewNo(review.getNo());
-			int check = likesDAO.selectReviewLike(like);
-			System.out.println("check ::" + check);
-			if (check == 1) {
-				likeCheck = "T";
-			} else {
-				likeCheck = "F";
-			}
-			System.out.println("likeCheck :: " + likeCheck);
-			review.setCkeckLike(likeCheck);
+			review.setCkeckLike(likesDAO.selectReviewLike(like) == 1 ? "T" :"F");
 		}
 
 		int total = reviewsDAO.pageTotal(filterVO);
@@ -140,28 +129,21 @@ public class ReviewServiceImpl implements ReviewService {
 
 		Map<String, Object> map = new ConcurrentHashMap<>();
 
-		Integer total = reviewsDAO.selectTotal();
-		Integer totalImg = reviewsDAO.selectTotalImg();
-		Integer totalTxt = reviewsDAO.selectTotalTxt();
-
-		map.put("total", total);
-		map.put("totalImg", totalImg);
-		map.put("totalTxt", totalTxt);
+		map.put("total", reviewsDAO.selectTotal());
+		map.put("totalImg", reviewsDAO.selectTotalImg());
+		map.put("totalTxt", reviewsDAO.selectTotalTxt());
 
 		return map;
 	}// totalReivew end
 
 	@Override
 	public Map<String, Object> reviewPopup(int no) {
-		int tmp = 0;
-		Like like = new Like();
 		Map<String, Object> map = new ConcurrentHashMap<>();
 
 		map.put("user", usersDAO.selectOneReviewUser(no));
 		map.put("review", reviewsDAO.selectOneReview(no));
 		map.put("reviewContents", reviewContentsDAO.imgReview(no));
 
-		System.out.println("reviewPopup:" + no);
 		return map;
 	}
 
@@ -177,15 +159,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public int ifLike(Like like) {
-
-		int result = likesDAO.ifLike(like);
-
-		if (result == 1) {
-			likesDAO.deleteLike(like);
-		} else {
-			likesDAO.insertLike(like);
-		}
-		return result;
+		return likesDAO.ifLike(like) == 1 ? likesDAO.deleteLike(like) : likesDAO.insertLike(like);
 	}
 
 	@Override
@@ -201,7 +175,6 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public boolean write(Review review) {
-
 		return 1 == reviewsDAO.insert(review);
 	}
 
@@ -241,21 +214,20 @@ public class ReviewServiceImpl implements ReviewService {
 		int numPage = 3;
 		FilterVO filterVO = new FilterVO(pageNo, type, numPage, order, title);
 		List<Review> list = reviewsDAO.selectSearchReview(filterVO);
+		
 		int total = reviewsDAO.selectSearchCount(filterVO);
 		int numBlock = 5;
 		Like like = new Like();
 		like.setUserNo(loginUserNo);
-		String likeCheck = "F";
+		String likeCheck = null;
+		
 		for (Review review : list) {
 			review.setList(reviewContentsDAO.selectContents(review.getNo()));
 			like.setReviewNo(review.getNo());
-			if (1 == likesDAO.selectReviewLike(like)) {
-				likeCheck = "T";
-			} else {
-				likeCheck = "F";
-			}
+			likeCheck = likesDAO.selectReviewLike(like) == 1 ? "T" : "F";
 			review.setCkeckLike(likeCheck);
 		}
+		
 		String url = "/review/search/page/";
 		String paginate = paginateUtil.getPaginate(pageNo, total, numPage, numBlock, url);
 		

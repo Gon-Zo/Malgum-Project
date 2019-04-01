@@ -3,7 +3,6 @@ package com.mujea.malgum.dao;
 import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 import java.util.Map;
-
 import com.mujea.malgum.vo.FilterVO;
 import com.mujea.malgum.vo.Item;
 import com.mujea.malgum.vo.PageVO;
@@ -15,7 +14,16 @@ public class ItemsDAOImpl implements ItemsDAO {
 	public void setSession(SqlSession session) {
 		this.session = session;
 	}
-
+	
+	/**
+	 * @name selectItemList \n
+	 * @brief 자동완성 기능을 위한 아이템 제목 목록 \n
+	 * @param String title \n
+	 * @return List<Item> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public List<Item> selectItemList(String title) {
 		// TODO Auto-generated method stub

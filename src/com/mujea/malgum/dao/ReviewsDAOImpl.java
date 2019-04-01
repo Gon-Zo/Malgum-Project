@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.mujea.malgum.vo.FilterVO;
 import com.mujea.malgum.vo.Review;
 import com.mujea.malgum.vo.ReviewContent;
@@ -18,6 +17,15 @@ public class ReviewsDAOImpl implements ReviewsDAO {
 		this.session = session;
 	}
 
+	/**
+	 * @name selectPageList \n
+	 * @brief 리뷰 의 리스트를 불러오는 기능 \n
+	 * @param Fileter VO fiterVO \n
+	 * @return List<Review> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public List<Review> selectPageList(FilterVO filterVO) {
 		// TODO Auto-generated method stub
@@ -42,6 +50,15 @@ public class ReviewsDAOImpl implements ReviewsDAO {
 		return session.selectOne("reviews.selectTotalTxt");
 	}
 
+	/**
+	 * @name pageTotal \n
+	 * @brief 불러올 리스트의 총 갯수\n
+	 * @param Fileter VO fiterVO \n
+	 * @return List<Review> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public int pageTotal(FilterVO filterVO) {
 		// TODO Auto-generated method stub

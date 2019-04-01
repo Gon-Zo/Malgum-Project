@@ -19,12 +19,12 @@ import com.mujea.malgum.vo.Review;
 import com.mujea.malgum.vo.Second;
 
 public class ReviewServiceImpl implements ReviewService {
+	
 	private ReviewsDAO reviewsDAO;
 	private PaginateUtil paginateUtil;
 	private ReviewContentsDAO reviewContentsDAO;
 	private LikesDAO likesDAO;
 	private ItemsDAO itemsDAO;
-	
 	private UsersDAO usersDAO;
 	private RepliesDAO repliesDAO;
 
@@ -258,7 +258,7 @@ public class ReviewServiceImpl implements ReviewService {
 		map.put("list", list);
 		map.put("paginate", paginate);
 		map.put("total", total);
-
+		
 		return map;
 	}
 	

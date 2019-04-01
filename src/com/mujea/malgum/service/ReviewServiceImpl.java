@@ -55,7 +55,16 @@ public class ReviewServiceImpl implements ReviewService {
 	public void setItemsDAO(ItemsDAO itemsDAO) {
 		this.itemsDAO = itemsDAO;
 	}
-
+	
+	/**
+	 * @name searchItem \n
+	 * @brief 리뷰페이지에서의 자동완성 기능 \n
+	 * @param String title \n
+	 * @return Map<String, Object> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public List<Item> searchItem(String title) {
 		// TODO Auto-generated method stub
@@ -63,6 +72,25 @@ public class ReviewServiceImpl implements ReviewService {
 		return itemsDAO.selectItemList(title);
 	}// searchItem end
 
+	/**
+	 * @name reivewList \n
+	 * @brief 리뷰페이지의 모든 기능을 넣었다 (필터 기능 과 검색 시 아이템을 출력) \n
+	 * @param int pageNo 페이지번호\n
+	 * @param String order 정렬순\n
+	 * @param String type \n
+	 * @param int listNo 아이템 번호\n
+	 * @param String second 이차 분류 데이터\n
+	 * @param String skin 스킨의 데이터\n
+	 * @param String age 연령 데이터\n
+	 * @param String problem 문제 데이터\n
+	 * @param String gift 선물 여부\n
+	 * @param int loginUser 유저 번호\n
+	 * @param int click 클릭 유무\n
+	 * @return Map<String, Object> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public Map<String, Object> reivewList(int pageNo, String order, String type, int listNo, String second, String skin,
 			String age, String problem, String gift, int loginUser, int click) {
@@ -99,19 +127,6 @@ public class ReviewServiceImpl implements ReviewService {
 
 		String url = "/review/main/page/";
 		String paginate = paginateUtil.getPaginate(pageNo, total, numPage, numBlock, url);
-
-		System.err.println("-----------------------필터 데이터-----------------------");
-		System.err.println("i.listNo : " + filterVO.getListNo());
-		System.err.println("i.order : " + filterVO.getOrder());
-		System.err.println("i.type : " + filterVO.getType());
-		System.err.println("i.second : " + filterVO.getSecond());
-		System.err.println("i.skin : " + filterVO.getSkin());
-		System.err.println("i.age : " + filterVO.getAge());
-		System.err.println("i.probNo : " + filterVO.getProblem());
-		System.err.println("i.gift : " + filterVO.getGift());
-		System.err.println("click 유무 : " + filterVO.getClick());
-		System.err.println("u.userNo : " + filterVO.getUserNo());
-		System.err.println("---------------------------------------------------------");
 
 		map.put("list", list);
 		map.put("paginate", paginate);

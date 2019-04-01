@@ -54,13 +54,31 @@ public class ReviewController {
 		model.addAllAttributes(reviewService.totalReivew());
 		return "review_main";
 	}// reviewMain end
-
+	
+	/**
+	 * @name ajaxItemSearch \n
+	 * @brief 리뷰페이지에서의 자동완성 기능 \n
+	 * @param String title \n
+	 * @return List<Item> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@RequestMapping(value = "/ajax/search/item/{title}", method = RequestMethod.POST)
 	@ResponseBody
 	public List<Item> ajaxItemSearch(@PathVariable String title) {
 		return reviewService.searchItem(title);
 	}
-
+	
+	/**
+	 * @name ajaxReviewList \n
+	 * @brief 리뷰페이지의 모든 기능을 넣었다 (필터 기능 과 검색 시 아이템을 출력) \n
+	 * @param String title \n
+	 * @return Map<String, Object> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@RequestMapping(value = "/ajax/review/page", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxReviewList(int pageNo, String order, String type, int listNo, String second,

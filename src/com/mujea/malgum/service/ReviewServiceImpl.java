@@ -218,7 +218,19 @@ public class ReviewServiceImpl implements ReviewService {
 		return count;
 	}
 
-	
+	/**
+	 * @name reivewList \n
+	 * @brief 검색 페이지 리뷰의 기능을 넣었다 (필터 기능 과 검색 시 아이템을 출력) \n
+	 * @param int pageNo 페이지번호\n
+	 * @param String order 정렬순\n
+	 * @param String type \n
+	 * @param int loginUser 유저 번호\n
+	 * @param String title 아이템 명 \n
+	 * @return Map<String, Object> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
 	@Override
 	public Map<String, Object> selectSearchReview(int pageNo , int loginUserNo , String order , String type , String title) {
 		// TODO Auto-generated method stub

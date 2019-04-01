@@ -73,6 +73,18 @@ public class ReviewController {
 	/**
 	 * @name ajaxReviewList \n
 	 * @brief 리뷰페이지의 모든 기능을 넣었다 (필터 기능 과 검색 시 아이템을 출력) \n
+	 * @param int pageNo 페이지번호\n
+	 * @param String order 정렬순\n
+	 * @param String type \n
+	 * @param int listNo 아이템 번호\n
+	 * @param String second 이차 분류 데이터\n
+	 * @param String skin 스킨의 데이터\n
+	 * @param String age 연령 데이터\n
+	 * @param String problem 문제 데이터\n
+	 * @param String gift 선물 여부\n
+	 * @param int loginUser 유저 번호\n
+	 * @param int click 클릭 유무\n
+	 * @return Map<String, Object> \n
 	 * @param String title \n
 	 * @return Map<String, Object> \n
 	 * @author park \n
@@ -134,7 +146,19 @@ public class ReviewController {
 		return reviewService.countReply(no);
 	}
 
-	
+	/**
+	 * @name reivewList \n
+	 * @brief 검색 페이지 리뷰의 기능을 넣었다 (필터 기능 과 검색 시 아이템을 출력) \n
+	 * @param int pageNo 페이지번호\n
+	 * @param String order 정렬순\n
+	 * @param String type \n
+	 * @param int loginUser 유저 번호\n
+	 * @param String title 아이템 명 \n
+	 * @return Map<String, Object> \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */	
 	@RequestMapping(value = "/ajax/review/search", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> ajaxReviewList(int pageNo , int loginUserNo , String order , String type , String title) {

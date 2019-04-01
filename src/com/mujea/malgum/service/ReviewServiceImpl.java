@@ -19,7 +19,7 @@ import com.mujea.malgum.vo.Review;
 import com.mujea.malgum.vo.Second;
 
 public class ReviewServiceImpl implements ReviewService {
-	
+
 	private ReviewsDAO reviewsDAO;
 	private PaginateUtil paginateUtil;
 	private ReviewContentsDAO reviewContentsDAO;
@@ -55,7 +55,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public void setItemsDAO(ItemsDAO itemsDAO) {
 		this.itemsDAO = itemsDAO;
 	}
-	
+
 	/**
 	 * @name searchItem \n
 	 * @brief 리뷰페이지에서의 자동완성 기능 \n
@@ -106,19 +106,19 @@ public class ReviewServiceImpl implements ReviewService {
 
 		Like like = new Like();
 		like.setUserNo(loginUser);
-		System.out.println("likeUserNo ::"+like.getUserNo());
+		System.out.println("likeUserNo ::" + like.getUserNo());
 		String likeCheck = "F";
 		for (Review review : list) {
 			review.setList(reviewContentsDAO.selectContents(review.getNo()));
 			like.setReviewNo(review.getNo());
 			int check = likesDAO.selectReviewLike(like);
-			System.out.println("check ::"+check);
-			if (check==1) {
+			System.out.println("check ::" + check);
+			if (check == 1) {
 				likeCheck = "T";
-			}else {
+			} else {
 				likeCheck = "F";
 			}
-			System.out.println("likeCheck :: "+likeCheck);
+			System.out.println("likeCheck :: " + likeCheck);
 			review.setCkeckLike(likeCheck);
 		}
 
@@ -160,8 +160,8 @@ public class ReviewServiceImpl implements ReviewService {
 		map.put("user", usersDAO.selectOneReviewUser(no));
 		map.put("review", reviewsDAO.selectOneReview(no));
 		map.put("reviewContents", reviewContentsDAO.imgReview(no));
-		
-		System.out.println("reviewPopup:"+no);
+
+		System.out.println("reviewPopup:" + no);
 		return map;
 	}
 
@@ -192,30 +192,32 @@ public class ReviewServiceImpl implements ReviewService {
 	public Like selectOneLike(int no) {
 		return likesDAO.selectOneLike(no);
 	}
-	
+
 	@Override
 	public boolean write(String[] img, String[] imgReviewSub, Review review) {
 		// TODO Auto-generated method stub
-		return 1==reviewsDAO.insert(img, imgReviewSub, review);
+		return 1 == reviewsDAO.insert(img, imgReviewSub, review);
 	}
 
 	@Override
 	public boolean write(Review review) {
 
-		return 1==reviewsDAO.insert(review);
+		return 1 == reviewsDAO.insert(review);
 	}
-	
-	
+
+	/**
+	 * @name countReply \n
+	 * @brief 리뷰 에서 리플의 갯수를 파악하는 함수이다 \n
+	 * @param int no 리뷰의 번호\n
+	 * @return int \n
+	 * @author park \n
+	 * @version 1.0 \n
+	 * @see None \n
+	 */
+	@Override
 	public int countReply(int no) {
-		
 		Reply reply = repliesDAO.replyCount(no);
-		int count =0;
-		if(reply!=null) {
-			count = reply.getReplyNum();
-		}else {
-			count= 0;
-		}
-		return count;
+		return reply != null ? reply.getReplyNum() : 0;
 	}
 
 	/**
@@ -232,11 +234,12 @@ public class ReviewServiceImpl implements ReviewService {
 	 * @see None \n
 	 */
 	@Override
-	public Map<String, Object> selectSearchReview(int pageNo , int loginUserNo , String order , String type , String title) {
+	public Map<String, Object> selectSearchReview(int pageNo, int loginUserNo, String order, String type,
+			String title) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new ConcurrentHashMap<>();
 		int numPage = 3;
-		FilterVO filterVO = new FilterVO(pageNo, type, numPage, order , title);
+		FilterVO filterVO = new FilterVO(pageNo, type, numPage, order, title);
 		List<Review> list = reviewsDAO.selectSearchReview(filterVO);
 		int total = reviewsDAO.selectSearchCount(filterVO);
 		int numBlock = 5;
@@ -244,23 +247,23 @@ public class ReviewServiceImpl implements ReviewService {
 		like.setUserNo(loginUserNo);
 		String likeCheck = "F";
 		for (Review review : list) {
-		review.setList(reviewContentsDAO.selectContents(review.getNo()));
+			review.setList(reviewContentsDAO.selectContents(review.getNo()));
 			like.setReviewNo(review.getNo());
-		if (1==likesDAO.selectReviewLike(like)) {
-			likeCheck = "T";
-		}else {
-			likeCheck = "F";
-		}
+			if (1 == likesDAO.selectReviewLike(like)) {
+				likeCheck = "T";
+			} else {
+				likeCheck = "F";
+			}
 			review.setCkeckLike(likeCheck);
 		}
 		String url = "/review/search/page/";
 		String paginate = paginateUtil.getPaginate(pageNo, total, numPage, numBlock, url);
+		
 		map.put("list", list);
 		map.put("paginate", paginate);
 		map.put("total", total);
-		
+
 		return map;
 	}
-	
-	
+
 }

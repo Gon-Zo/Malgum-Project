@@ -581,7 +581,6 @@ $('.my_review').on('click',function(){
 /*  필터링 함수 처리 
  *  Str 이라는 변수들은 임시 저장 공간이다.
  *  저장을 하지만 값을 넘길떄에는 초기 변수에 담아서 넘어간다.
- *  
  */
 	var secondStr="";
 	var skinStr="";

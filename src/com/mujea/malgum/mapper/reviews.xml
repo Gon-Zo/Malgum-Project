@@ -47,106 +47,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 
-	<select id="selectPageList" parameterType="FilterVO"
-		resultType="Review">
-		select no , title , gift , score , type , regdate , txt , userNo ,
-		name , userGender , birth , userSkin , userImg , likeNum , replyNum ,
-		itemNo , itemTitle , itemImg , brand , volume , age , itemGender ,
-		itemSkin , first , second , probNo , reviewContent , imgCount
-		from(
-		select no , title , gift , score , type , regdate , txt , userNo ,
-		name ,
-		userImg , userGender , birth , userSkin , likeNum , replyNum ,
-		itemNo , itemTitle , itemImg , brand , volume , age , itemGender ,
-		itemSkin
-		, first , second , probNo , reviewContent , imgCount ,rownum r
-		from (
-		select r.no , r.title , r.gift , r.score , r.type , r.regdate ,
-		r.content
-		txt,
-		u.no userNo , u.name ,u.gender userGender ,u.img userImg
-		,u.birth , u.skin
-		userSkin , nvl(l.likeNum,0) likeNum ,
-		nvl(re.replyNum,0) replyNum ,
-		i.no itemNo , i.title itemTitle , i.img
-		itemImg, i.brand , i.volume ,
-		i.age , i.gender itemGender , i.skin
-		itemSkin, i.first , i.second ,
-		i.probNo ,
-		rc.content reviewContent ,
-		nvl(rc.imgCount,0) imgCount
-		from reviews r , users u ,
-		(select review_no
-		, count(*) replyNum
-		from replies
-		group by review_no) re ,
-		(select
-		review_no , count(*) likeNum
-		from likes
-		where type = 'R'
-		group by
-		review_no) l ,
-		(select i.no , i.title , i.img , u.brand , i.volume ,
-		i.age , i.gender ,
-		i.skin , i.first , s.no second , p.prob_no probNo
-		from items i , users u , seconds s , problemtypes p
-		where i.user_no =
-		u.no
-		and i.second_no = s.no
-		and p.item_no(+) = i.no
-		) i , (
-		select
-		rc.review_no , rc.content , c.imgCount
-		from reviewcontents rc ,
-		(select
-		review_no , count(*) imgCount
-		from reviewContents
-		group by review_no) c
-		where c.review_no = rc.review_no
-		and seq = 1
-		) rc
-		where r.user_no = u.no
-		and re.review_no(+) = r.no
-		and l.review_no(+) = r.no
-		and i.no(+) =
-		r.item_no
-		and r.no = rc.review_no(+)
+	<select id="selectPageList" parameterType="FilterVO" resultType="Review">
+		Select no , title , gift , score , type , regdate , txt , userNo , name , userGender , birth , userSkin , userImg , likeNum , replyNum ,
+		itemNo , itemTitle , itemImg , brand , volume , age , itemGender , itemSkin , first , second , probNo , reviewContent , imgCount
+		From(
+				select no , title , gift , score , type , regdate , txt , userNo , name , userImg , userGender , birth , userSkin , likeNum ,
+				replyNum , itemNo , itemTitle , itemImg , brand , volume , age , itemGender , itemSkin , first , second , probNo , reviewContent 
+				, imgCount ,rownum r
+				From (
+							select r.no , r.title , r.gift , r.score , r.type , r.regdate , r.content txt, u.no userNo , u.name ,u.gender userGender 
+							,u.img userImg ,u.birth , u.skin userSkin , nvl(l.likeNum,0) likeNum , nvl(re.replyNum,0) replyNum , i.no itemNo , 
+							i.title itemTitle , i.img itemImg, i.brand , i.volume , i.age , i.gender itemGender , i.skin itemSkin, i.first , i.second ,
+							i.probNo , rc.content reviewContent , nvl(rc.imgCount,0) imgCount
+							From reviews r , users u ,
+								(Select review_no , count(*) replyNum
+								From replies
+								Group by review_no) re ,
+								(Select review_no , count(*) likeNum
+								From likes
+								Where type = 'R'
+								Group by review_no) l ,
+								(Select i.no , i.title , i.img , u.brand , i.volume , i.age , i.gender , i.skin , i.first , s.no second , p.prob_no probNo
+								 From items i , users u , seconds s , problemtypes p
+								 Where i.user_no = u.no
+								 And i.second_no = s.no
+		                      And p.item_no(+) = i.no ) i ,
+								(Select rc.review_no , rc.content , c.imgCount
+								From reviewcontents rc ,
+								(Select review_no , count(*) imgCount
+								 From reviewContents
+								 Group by review_no) c
+								 Where c.review_no = rc.review_no
+								 And seq = 1
+								) rc
+		Where r.user_no = u.no
+		And re.review_no(+) = r.no
+		And l.review_no(+) = r.no
+		And i.no(+) = r.item_no
+		And r.no = rc.review_no(+)
 		<if test="click==1">
-			and u.no = #{userNo}
+			And u.no = #{userNo}
 		</if>
 		<if test="listNo!=0">
-			and i.no = #{listNo}
+			And i.no = #{listNo}
 		</if>
 		<if test="second!=''">
-			and i.second in (${second})
+			And i.second in (${second})
 		</if>
 		<if test="skin!=null">
-			and i.skin in (${skin})
+			And i.skin in (${skin})
 		</if>
 		<if test="problem!=null">
-			and i.probNo in (${problem})
+			And i.probNo in (${problem})
 		</if>
 		<if test="gift!=null">
-			and r.gift in (${gift})
+			And r.gift in (${gift})
 		</if>
 		<if test="age!=null">
-			and i.age in (${age})
+			And i.age in (${age})
 		</if>
 		<if test="type!=null">
-			and r.type = #{type}
+			And r.type = #{type}
 		</if>
 		<if test="order.equals('regdate')">
-			order by r.regdate desc
+			Order by r.regdate desc
 		</if>
 		<if test="order.equals('score')">
-			order by r.score desc
+			Order by r.score desc
 		</if>
 		<if test="order.equals('like')">
-			order by likeNum desc
+			Order by likeNum desc
 		</if>
 		)
 		)
-		where r between #{start} and #{end}
+		Where r between #{start} and #{end}
 	</select>
 
 	<select id="pageTotal" resultType="int" parameterType="FilterVO">
